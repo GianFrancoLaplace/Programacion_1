@@ -9,18 +9,22 @@ _Realizar el programa completo bien modularizado.
 import java.io.File;
 
 public class App {
+    public static int MaxF=2, MaxC=21;
     public static void main(String[] args) throws Exception {
         System.out.println("Hello, World!");
         char[][] MatA={ 
         { ' ', 'a', 'x', 'b', ' ', 'c', 'r', 'd', ' ', 'e', 'j', 'f', ' ', 'g', ' ', ' ', 'o', 'i', ' ', 'j', ' '},
         {' ', 'k', ' ', 'l', ' ', 'n', ' ', 'm', ' ', 'o', ' ', 'p', ' ', 'q', ' ', 's', ' ', 'r', ' ', 't', ' '},
         };
+        int[] arr = {1,2,3,4,5};
+        correrAIzquierda(arr, 3);
+        mostrar_arr(arr);
         mostrar(MatA);
         System.out.println(" ");
-        ordenar_matriz(MatA);
-        mostrar(MatA);
+        // ordenar_matriz(MatA);
+        ordenar_matriz_secuencial(MatA);
+        //mostrar(MatA);
         System.out.println();
-        // insercion_m(MatA);
         mostrar(MatA);
     }
 
@@ -38,6 +42,28 @@ public class App {
                         m[i][j] = mayor;
                         m[fil][col] = aux;
                     }
+                }
+            }
+        }
+    }
+
+    public static void ordenar_matriz_secuencial(char[][] m) {
+        char mayor= ' ', aux; 
+        for (int i = MaxF-1; i >=0; i--) {
+            for (int j = MaxC-1 ; j >= 0; j--) {
+                mayor = m[i][j];
+                int j2=j;
+                for (int k = i; k >= 0; k--) {
+                    while(j2 >=0){
+                        if(mayor < m[k][j2] && mayor!=' '){
+                            aux = m[i][j];
+                            mayor = m[k][j2];
+                            m[i][j] = mayor;
+                            m[k][j2] = aux;
+                        }
+                        j2--;
+                    }
+                    j2=MaxC-1;
                 }
             }
         }
@@ -120,20 +146,23 @@ public class App {
         }
     }
 
-   /*  public static void insercion_m(char[][] m) {
-        int posC, posF;
-        char aux;
-        for (int i = 0; i < 2; i++) {
-            posF=i;
-            for (int j = 0; j < 21; j++) {
-                posC=j;
-                aux = m[i][j];
-                while((posC>0) && (m[posF][posC-1] > aux && m[posF][posC]!=' ')){
-                    m[posF][posC] = m[posF][posC-1];
-                    posC--;
-                }
-                m[posF][posC] = aux;
+    public void corrimiento_izq(int m[][], int f, int ini, int fin) {
+        for (int i = f; i < MaxF; i++) {
+            for (int j = ini; j < fin; j++) {
+                m[i][j] = m[i][j+1];
             }
         }
-    } */
-}
+    }
+
+    public static void correrAIzquierda(int[] arr, int pos) {
+        for (int i = pos; i < arr.length-1; i++){
+            arr[i] = arr[i+1];
+        }
+    }
+
+    public static void mostrar_arr(int[] arr) {
+        for (int i = 0; i < arr.length; i++) {
+            System.out.println(arr[i]+ ", ");
+        }
+    }
+}   
